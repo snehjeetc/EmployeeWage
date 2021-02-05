@@ -17,14 +17,14 @@ case $checkRandom in
     		echo "Employee is present"
     		jobType=$((RANDOM%2))
     		case $jobType in
-    			$FullTime)
+                    $FullTime)
         				dailyPayment=$(($WagePerHr * $fullDay))
     					;;
-				$PartTime)
-        				dailyPayment=$(($WagePerHr * $partTimeHr))
+                    $PartTime)
+                        dailyPayment=$(($WagePerHr * $partTimeHr))
 						;;
-				*)
-						echo "Invalid job type"
+				    *)
+                        echo "Invalid job type"
 						;;
 			esac
 			;;
