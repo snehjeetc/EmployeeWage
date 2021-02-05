@@ -10,31 +10,36 @@ WagePerHr=20
 fullDay=8
 partTimeHr=4
 dailyPayment=0
-checkRandom=$((RANDOM%2))
+workingDay=20
+salary=0
 
-case $checkRandom in
-	$present)
-    		echo "Employee is present"
-    		jobType=$((RANDOM%2))
-    		case $jobType in
-                    $FullTime)
-                        dailyPayment=$(($WagePerHr * $fullDay))
-                        ;;
-                    $PartTime)
-                        dailyPayment=$(($WagePerHr * $partTimeHr))
-                        ;;
-                    *)
-                        echo "Invalid job type"
-                        ;;
-            esac
-            ;;
-	$absent)
-    		echo "Employee is absent"
-			;;
+for((day=1; day<=$workingDay; day++))
+do
+    checkRandom=$((RANDOM%2))
+    case $checkRandom in
+	    $present)
+    		    echo "Employee is present"
+    		    jobType=$((RANDOM%2))
+    		    case $jobType in
+                        $FullTime)
+                            dailyPayment=$(($WagePerHr * $fullDay))
+                            ;;
+                        $PartTime)
+                            dailyPayment=$(($WagePerHr * $partTimeHr))
+                            ;;
+                        *)
+                            echo "Invalid job type"
+                            ;;
+                esac
+                ;;
+	    $absent)
+    		    echo "Employee is absent"
+			    ;;
         *)
-            echo "Invalid attendance"
-            ;;
-esac
+                echo "Invalid attendance"
+                ;;
+        esac
+        salary=$(($dailyPayment+$salary))
+done
 
-
-echo "Daily Payment is : $dailyPayment"
+echo "Salary = $salary"
