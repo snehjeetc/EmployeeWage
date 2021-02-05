@@ -2,26 +2,27 @@
 
 echo "Welcome to Employee Wage Computation Program"
 
-
-isFullTime=2
-isPartTime=1
+present=1
+absent=0
+FullTime=1
+PartTime=0
 WagePerHr=20
 fullDay=8
 partTimeHr=4
 dailyPayment=0
-checkRandom=$((RANDOM%3))
-if [ $isFullTime -eq $checkRandom ]
+checkRandom=$((RANDOM%2))
+if [ $present -eq $checkRandom ]
 then
-    echo "Employee does full time job"
-    dailyPayment=$(($WagePerHr*$fullDay))
-    echo "Daily Payment is: " $dailyPayment
-elif [ $isPartTime -eq $checkRandom ]
-then
-    echo "Employee does part time job"
-    dailyPayment=$(($partTimeHr*$WagePerHr))
-    echo "Daily Payment is: " $dailyPayment
+    echo "Employee is present"
+    jobType=$((RANDOM%2))
+    if [ $FullTime -eq $jobType ]
+    then
+        dailyPayment=$(($WagePerHr * $fullDay))
+    else
+        dailyPayment=$(($WagePerHr * $partTimeHr))
+    fi
 else
     echo "Employee is absent"
-    echo "Daily Payment is: " $dailyPayment 
 fi
 
+echo "Daily Payment is : $dailyPayment"
