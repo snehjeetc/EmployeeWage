@@ -18,12 +18,12 @@ case $checkRandom in
     		jobType=$((RANDOM%2))
     		case $jobType in
                     $FullTime)
-        				dailyPayment=$(($WagePerHr * $fullDay))
-    					;;
+                        dailyPayment=$(($WagePerHr * $fullDay))
+                        ;;
                     $PartTime)
                         dailyPayment=$(($WagePerHr * $partTimeHr))
 						;;
-				    *)
+                    *)
                         echo "Invalid job type"
 						;;
 			esac
@@ -31,9 +31,9 @@ case $checkRandom in
 	$absent)
     		echo "Employee is absent"
 			;;
-	*)
-			echo "Invalid attendance"
-			;;
+        *)
+            echo "Invalid attendance"
+            ;;
 esac
 
 
