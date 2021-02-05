@@ -38,3 +38,4 @@ esac
 
 
 echo "Daily Payment is : $dailyPayment"
+
