@@ -2,6 +2,7 @@
 
 echo "Welcome to Employee Wage Computation Program"
 
+#constants
 present=1
 absent=0
 FullTime=1
@@ -9,46 +10,52 @@ PartTime=0
 WagePerHr=20
 fullDay=8
 partTimeHr=4
-dailyPayment=0
-workingDay=20
-salary=0
-workingHrsLimit=100
+tot_WorkDays_limit=20
+tot_workingHrs_Limit=100
 
+#Daily Variables
 HrsWorked=0
+totDaysWorked=0
+dailyPayment=0
+salary=0
 
-for((day=1; day<=$workingDay; day++))
+function getWorkingHrs(){
+    case $1 in
+        $FullTime)
+                    workingHrs=$fullDay
+                    ;;
+        $PartTime)
+                    workingHrs=$partTimeHr
+                    ;;
+        *)
+                    workingHrs=0
+                    ;;
+    esac
+    echo $workingHrs
+}
+
+while [[ $totDaysWorked -lt $tot_WorkDays_limit && 
+        $HrsWorked -lt $tot_workingHrs_Limit ]]
 do
     checkRandom=$((RANDOM%2))
     case $checkRandom in
 	    $present)
     		    echo "Employee is present"
-    		    jobType=$((RANDOM%2))
-    		    case $jobType in
-                        $FullTime)
-                            HrsWorkded=$(($HrsWorked + $fullDay))
-                            dailyPayment=$(($WagePerHr * $fullDay))
-                            ;;
-                        $PartTime)
-                            HrsWorked=$(($HrsWorked + $partTimeHr))
-                            dailyPayment=$(($WagePerHr * $partTimeHr))
-                            ;;
-                        *)
-                            echo "Invalid job type"
-                            ;;
-                esac
+                workHr=$( getWorkingHrs $((RANDOM%2)) )
+                HrsWorked=$(($HrsWorked + $workHr))
+                dailyPayment=$(($WagePerHr*$workHr))
+                ((totDaysWorked++))
                 ;;
 	    $absent)
     		    echo "Employee is absent"
+                dailyPayment=0
 			    ;;
         *)
                 echo "Invalid attendance"
+                dailyPayment=0
                 ;;
         esac
-        salary=$(($dailyPayment+$salary))
-        if [ $HrsWorkded -ge $workingHrsLimit ]
-        then 
-            break
-        fi
+        salary=$(($salary+$dailyPayment))
 done
 
 echo "Salary = $salary"
