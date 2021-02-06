@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -x 
 
 echo "Welcome to Employee Wage Computation Program"
 
@@ -14,10 +14,7 @@ tot_WorkDays_limit=20
 tot_workingHrs_Limit=100
 
 #Daily Variables
-declare -a dailyWageRecord
-declare -a totalWageRecord
-dailyWageRecord[0]=0
-totalWageRecord[0]=0
+declare -A wageRecords
 
 HrsWorked=0
 totDaysWorked=0
@@ -43,8 +40,15 @@ function addDailyRecords(){
     index=$1
     dailyWage_value=$2
     totWage_value=$3
-    dailyWageRecord[$index]=$dailyWage_value
-    totWage_value[$index]=$totWage_value
+    wageRecords[$index]=`printf "%d\t%d" $dailyWage_value $totWage_value`
+}
+
+function printWageRecords(){
+    echo "Days: DailyWage TotalWage"
+    for((keys=1; keys<=$1; keys++))
+    do
+        echo $keys ": " ${wageRecords[$keys]}
+    done
 }
 
 while [[ $totDaysWorked -lt $tot_WorkDays_limit && 
@@ -58,6 +62,7 @@ do
                 HrsWorked=$(($HrsWorked + $workHr))
                 dailyPayment=$(($WagePerHr*$workHr))
                 ((totDaysWorked++))
+                salary=$(($salary+$dailyPayment))
                 addDailyRecords $totDaysWorked $dailyPayment $salary
                 ;;
 	    $absent)
@@ -69,7 +74,7 @@ do
                 dailyPayment=0
                 ;;
         esac
-        salary=$(($salary+$dailyPayment))
 done
 
 echo "Salary = $salary"
+printWageRecords $totDaysWorked
