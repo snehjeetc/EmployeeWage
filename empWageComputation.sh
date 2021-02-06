@@ -25,7 +25,7 @@ do
     		    jobType=$((RANDOM%2))
     		    case $jobType in
                         $FullTime)
-                            HrsWorkded=$(($HrsWorked + $fullDay))
+                            HrsWorked=$(($HrsWorked + $fullDay))
                             dailyPayment=$(($WagePerHr * $fullDay))
                             ;;
                         $PartTime)
