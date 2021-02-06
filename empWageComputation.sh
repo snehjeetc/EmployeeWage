@@ -12,6 +12,9 @@ partTimeHr=4
 dailyPayment=0
 workingDay=20
 salary=0
+workingHrsLimit=100
+
+HrsWorked=0
 
 for((day=1; day<=$workingDay; day++))
 do
@@ -22,9 +25,11 @@ do
     		    jobType=$((RANDOM%2))
     		    case $jobType in
                         $FullTime)
+                            HrsWorkded=$(($HrsWorked + $fullDay))
                             dailyPayment=$(($WagePerHr * $fullDay))
                             ;;
                         $PartTime)
+                            HrsWorked=$(($HrsWorked + $partTimeHr))
                             dailyPayment=$(($WagePerHr * $partTimeHr))
                             ;;
                         *)
@@ -40,8 +45,10 @@ do
                 ;;
         esac
         salary=$(($dailyPayment+$salary))
+        if [ $HrsWorkded -ge $workingHrsLimit ]
+        then 
+            break
+        fi
 done
 
-
-echo "Daily Payment is : $dailyPayment"
 echo "Salary = $salary"
